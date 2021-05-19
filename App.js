@@ -1,67 +1,21 @@
-import 'react-native-gesture-handler';
 import React from 'react';
 // import { Container, Header, Content, Button } from 'native-base';
-import { Button, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
+import AppContainer from './src/navigation/Navigator';
 
-import { HomeScreen, SettingsScreen, DetailsScreen  } from './src/screens';
+import {LocalizationProvider} from './src/services/localization/LocalizationContext';
 
-const HomeStack = createStackNavigator();
-
-function HomeStackScreen() {
+const App = () => {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
-      <HomeStack.Screen name="Details" component={DetailsScreen} />
-    </HomeStack.Navigator>
+    <LocalizationProvider>
+      <SafeAreaView style={{flex: 1}}>
+        <AppContainer />
+      </SafeAreaView>
+    </LocalizationProvider>
   );
-}
+};
 
-const SettingsStack = createStackNavigator();
-
-function SettingsStackScreen() {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-      <SettingsStack.Screen name="Details" component={DetailsScreen} />
-    </SettingsStack.Navigator>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isReady: false,
-      title: 'STAR GATE',
-      data: []
-    };
-  }
-  async componentDidMount() {
-    this.setState({ isReady: true });
-  }
-
-  render() {
-    if (!this.state.isReady) {
-      return <Text>Загрузка приложения</Text>;
-    }
-    return (
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Settings" component={SettingsStackScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    )
-  }
-}
+export default App;
 
 {/* <Container>
   <Header />
